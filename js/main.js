@@ -21,7 +21,7 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.P2JS);
   game.physics.p2.gravity.y = 1000;
-  game.physics.p2.restitution = .1;
+  game.physics.p2.restitution = .5;
 
   createPlayer();
   createMouseGrab();
