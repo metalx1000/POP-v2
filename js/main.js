@@ -1,6 +1,6 @@
 var game = new Phaser.Game(800, 400, Phaser.CANVAS, 'pop', { preload: preload, create: create, preRender: preRender, render: render });
 
-var imgs = [ "BadTux1", "BadTux2", "batarang", "bizzaro", "feather1", "tux-batman", "cursor" ];
+var imgs = [ "BadTux1", "BadTux2", "batarang", "bizzaro", "feather1", "tux-batman", "cursor", "background" ];
 var showDebug = true;
 
 function preload() {
@@ -16,10 +16,12 @@ var mouseSpring;
 var drawLine = false;
 
 function create() {
+  game.world.setBounds(0, 0, 5000, 400);
+  game.add.tileSprite(0, 0, 5000, 600, 'background');
 
   game.physics.startSystem(Phaser.Physics.P2JS);
-  game.physics.p2.gravity.y = 100;
-  game.physics.p2.restitution = 0.8;
+  game.physics.p2.gravity.y = 1000;
+  game.physics.p2.restitution = .1;
 
   createPlayer();
   createMouseGrab();
@@ -32,8 +34,10 @@ function create() {
 function createPlayer(){
   //  Create player
   tux = game.add.sprite(200, 200, 'tux-batman');
+  tux.scale.set(.5);
   game.physics.p2.enable(tux);
-  tux.body.setCircle(30);
+  //tux.body.setCircle(15);
+  game.camera.follow(tux);
 }
 
 function createMouseGrab(){
@@ -84,6 +88,10 @@ function render() {
   if (drawLine){
     game.debug.geom(line);
   }
-
+/*
+  if(tux.position.x > 800){
+    game.camera.follow(tux);
+  }
+*/
 }
 
