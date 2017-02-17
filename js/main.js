@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'pop', { preload: preload, create: create, preRender: preRender, render: render });
+var game = new Phaser.Game(800, 400, Phaser.CANVAS, 'pop', { preload: preload, create: create, preRender: preRender, render: render });
 
 var imgs = [ "BadTux1", "BadTux2", "batarang", "bizzaro", "feather1", "tux-batman", "cursor" ];
 var showDebug = true;
@@ -21,11 +21,22 @@ function create() {
   game.physics.p2.gravity.y = 100;
   game.physics.p2.restitution = 0.8;
 
-  //  Create an object to pick-up
+  createPlayer();
+  createMouseGrab();
+  game.input.onDown.add(click, this);
+  game.input.onUp.add(release, this);
+  game.input.addMoveCallback(move, this);
+
+}
+
+function createPlayer(){
+  //  Create player
   tux = game.add.sprite(200, 200, 'tux-batman');
   game.physics.p2.enable(tux);
   tux.body.setCircle(30);
+}
 
+function createMouseGrab(){
   //  Create our Mouse Cursor / Spring
   mouseBody = game.add.sprite(100, 100, 'cursor');
   game.physics.p2.enable(mouseBody);
@@ -36,9 +47,6 @@ function create() {
   //  Debug spring line
   line = new Phaser.Line(tux.x, tux.y, mouseBody.x, mouseBody.y);
 
-  game.input.onDown.add(click, this);
-  game.input.onUp.add(release, this);
-  game.input.addMoveCallback(move, this);
 
 }
 
